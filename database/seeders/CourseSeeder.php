@@ -5,34 +5,58 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Course;
 use App\Models\Category;
+use App\Models\User;
 
 class CourseSeeder extends Seeder
 {
     public function run(): void
     {
-        $programming = Category::where('slug','programming')->first();
-        $web = Category::where('slug','web-development')->first();
-        $database = Category::where('slug','database')->first();
+        $instructorId = User::where('email', 'instructor@eduflow.com')->value('id');
 
-        Course::create([
-            'title' => 'PHP for Beginners',
-            'description' => 'Learn PHP from scratch',
-            'category_id' => $programming->id,
-            'instructor_id' => 2
-        ]);
+        $programming = Category::where('slug', 'programming')->first();
+        $web         = Category::where('slug', 'web-development')->first();
+        $database    = Category::where('slug', 'database')->first();
+        $uiux        = Category::where('slug', 'uiux-design')->first();
+        $devops      = Category::where('slug', 'devops')->first();
 
-        Course::create([
-            'title' => 'Laravel Basics',
-            'description' => 'Introduction to Laravel framework',
-            'category_id' => $web->id,
-            'instructor_id' => 2
-        ]);
+        $courses = [
+            [
+                'title'         => 'PHP for Beginners',
+                'description'   => 'Learn PHP from scratch — variables, loops, functions, and OOP basics.',
+                'category_id'   => $programming->id,
+                'status'        => 'published',
+            ],
+            [
+                'title'         => 'Laravel Basics',
+                'description'   => 'Introduction to Laravel framework — routing, controllers, Blade, and Eloquent.',
+                'category_id'   => $web->id,
+                'status'        => 'published',
+            ],
+            [
+                'title'         => 'SQL Fundamentals',
+                'description'   => 'Learn relational databases and SQL — SELECT, JOIN, indexes, and transactions.',
+                'category_id'   => $database->id,
+                'status'        => 'published',
+            ],
+            [
+                'title'         => 'UI/UX Design Principles',
+                'description'   => 'Master the fundamentals of user interface and user experience design.',
+                'category_id'   => $uiux->id,
+                'status'        => 'draft', // demo pending flow
+            ],
+            [
+                'title'         => 'DevOps with Docker',
+                'description'   => 'Learn containerization with Docker and basic CI/CD pipelines.',
+                'category_id'   => $devops->id,
+                'status'        => 'pending', // demo pending flow
+            ],
+        ];
 
-        Course::create([
-            'title' => 'SQL Fundamentals',
-            'description' => 'Learn relational databases and SQL',
-            'category_id' => $database->id,
-            'instructor_id' => 2
-        ]);
+        foreach ($courses as $course) {
+            Course::create([
+                'instructor_id' => $instructorId,
+                ...$course,
+            ]);
+        }
     }
 }
