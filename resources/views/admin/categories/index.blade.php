@@ -56,8 +56,7 @@
           <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="d-inline"
             onsubmit="return confirm('Delete this category?')">
             @csrf @method('DELETE')
-            <button type="submit" class="btn-sm py-1 px-2"
-              style="border:1.5px solid var(--edu-red);border-radius:6px;background:transparent;color:var(--edu-red);cursor:pointer">
+            <button type="submit" class="btn-sm py-1 px-2  btn-action-delete">
               <i class="bi bi-trash"></i>
             </button>
           </form>

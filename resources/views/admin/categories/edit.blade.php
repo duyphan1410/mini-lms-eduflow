@@ -32,7 +32,7 @@
       <input type="text" value="{{ $category->slug }}" class="field-input"
         style="padding-left:14px;background:var(--edu-surface);color:var(--edu-muted)" disabled>
       <div style="font-size:11px;color:var(--edu-muted);margin-top:5px">
-        Slug sẽ tự động cập nhật khi đổi tên.
+        The Slug will be automatically generated from the name.
       </div>
     </div>
 

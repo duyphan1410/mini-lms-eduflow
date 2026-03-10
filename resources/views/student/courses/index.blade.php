@@ -6,16 +6,16 @@
 <div class="topbar">
   <div class="page-header mb-0">
     <h2>Browse Courses</h2>
-    <p>Khám phá các khóa học phù hợp với bạn.</p>
+    <p>Discover courses that are right for you.</p>
   </div>
 </div>
 
 {{-- Search + Filter --}}
 <form method="GET" class="d-flex gap-2 mb-4 flex-wrap">
   <input type="text" name="search" value="{{ request('search') }}"
-    class="field-input" style="max-width:280px;padding-left:14px"
+    class="field-input" style="max-width:280px;padding-left:14px;width:auto"
     placeholder="Search courses...">
-  <select name="category" class="field-input" style="max-width:180px;padding-left:14px"
+  <select name="category" class="field-input" style="max-width:180px;padding-left:14px;width:auto"
     onchange="this.form.submit()">
     <option value="">All categories</option>
     @foreach($categories as $cat)
@@ -64,7 +64,7 @@
   <div class="col-12">
     <div class="card-box text-center" style="color:var(--edu-muted)">
       <i class="bi bi-search" style="font-size:32px;display:block;margin-bottom:8px"></i>
-      Không tìm thấy khóa học nào.
+      No courses found.
     </div>
   </div>
   @endforelse

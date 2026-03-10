@@ -25,7 +25,7 @@
     <div class="section-title">Lessons ({{ $course->lessons->count() }})</div>
 
     @if($course->lessons->isEmpty())
-    <div class="card-box text-center" style="color:var(--edu-muted)">Chưa có lesson nào.</div>
+    <div class="card-box text-center" style="color:var(--edu-muted)">No lessons yet.</div>
     @else
     <div style="display:flex;flex-direction:column;gap:8px">
       @foreach($course->lessons as $lesson)
@@ -72,7 +72,7 @@
       @endif
 
       <div style="font-size:13px;color:#475569;margin-bottom:16px;line-height:1.6">
-        {{ $course->description ?? 'Không có mô tả.' }}
+        {{ $course->description ?? 'No description.' }}
       </div>
 
       <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;margin-bottom:16px">

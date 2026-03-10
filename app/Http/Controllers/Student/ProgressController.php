@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
 use App\Models\LessonProgress;
+use App\Models\Quiz;
+use App\Models\QuizAttempt;
+use App\Models\QuizAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,5 +106,55 @@ class ProgressController extends Controller
         );
 
         return back()->with('success', 'Lesson marked as completed!');
+    }
+
+    public function submitQuiz(Request $request, Lesson $lesson)
+    {
+        $user = Auth::user();
+
+        abort_if(!$user->enrollments()->where('course_id', $lesson->course_id)->exists(), 403);
+
+        $quiz = $lesson->quizzes()->with('questions.options')->firstOrFail();
+
+        $request->validate([
+            'answers'   => 'required|array',
+            'answers.*' => 'required|exists:options,id',
+        ]);
+
+        // Xóa attempt cũ — quiz_answers tự cascade delete
+        QuizAttempt::where('user_id', $user->id)
+            ->where('quiz_id', $quiz->id)
+            ->delete();
+
+        // Tính score
+        $score = $quiz->questions->reduce(function ($carry, $question) use ($request) {
+            $selected = $request->answers[$question->id] ?? null;
+            $correct  = $question->options->firstWhere('is_correct', true);
+            return $carry + ($correct && $correct->id == $selected ? 1 : 0);
+        }, 0);
+
+        // attempt mới
+        $attempt = QuizAttempt::create([
+            'user_id' => $user->id,
+            'quiz_id' => $quiz->id,
+            'score'   => $score,
+        ]);
+
+        // Lưu answers — insert batch
+        $answers = $quiz->questions->map(fn($q) => [
+            'quiz_attempt_id' => $attempt->id,
+            'question_id'     => $q->id,
+            'option_id'       => $request->answers[$q->id] ?? null,
+            'created_at'      => now(),
+            'updated_at'      => now(),
+        ])->filter(fn($a) => $a['option_id'])->values()->toArray();
+
+        QuizAnswer::insert($answers);
+
+        $total = $quiz->questions->count();
+        $pct   = $total > 0 ? round($score / $total * 100) : 0;
+
+        return redirect()->route('student.lessons.show', $lesson)
+            ->with('success', "Quiz submitted! Score: {$score}/{$total} ({$pct}%)");
     }
 }

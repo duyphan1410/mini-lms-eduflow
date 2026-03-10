@@ -13,16 +13,20 @@
       <i class="bi bi-pencil"></i> Edit
     </a>
     @if($course->status === 'draft')
-    <form method="POST" action="{{ route('instructor.courses.submit', $course) }}">
-      @csrf @method('PATCH')
-      <button type="submit" class="btn-primary-edu">
-        <i class="bi bi-send"></i> Submit
-      </button>
-    </form>
+      <form method="POST" action="{{ route('instructor.courses.submit', $course) }}">
+        @csrf @method('PATCH')
+        <button type="submit" class="btn-primary-edu">
+          <i class="bi bi-send"></i> Submit for Review
+        </button>
+      </form>
+    @elseif($course->status === 'pending')
+      <span class="btn-primary-edu" style="opacity:.7;cursor:default;background:var(--edu-amber)">
+        <i class="bi bi-hourglass-split"></i> Pending Review
+      </span>
     @else
-    <span class="btn-primary-edu" style="opacity:.7;cursor:default">
-      <i class="bi bi-check-circle"></i> Published
-    </span>
+      <span class="btn-primary-edu" style="opacity:.7;cursor:default">
+        <i class="bi bi-check-circle"></i> Published
+      </span>
     @endif
   </div>
 </div>

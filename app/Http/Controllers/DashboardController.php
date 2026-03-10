@@ -39,7 +39,21 @@ class DashboardController extends Controller
     {
         $enrolledCourseIds = $user->enrollments()->pluck('course_id');
         return [
-            'enrolledCourses'  => $user->enrollments()->with('course.instructor')->latest()->take(3)->get(),
+            'enrolledCourses' => $user->enrollments()
+            ->with('course.instructor', 'course.lessons')
+            ->latest()->take(3)->get()
+            ->each(function ($enrollment) use ($user) {
+                $total = $enrollment->course->lessons->count();
+                if ($total === 0) {
+                    $enrollment->progress_percent = 0;
+                    return;
+                }
+                $completed = $user->lessonProgress()
+                    ->whereIn('lesson_id', $enrollment->course->lessons->pluck('id'))
+                    ->where('completed', true)
+                    ->count();
+                $enrollment->progress_percent = round($completed / $total * 100);
+            }),
             'availableCourses' => Course::where('status', 'published')
                                     ->whereNotIn('id', $enrolledCourseIds)
                                     ->take(3)->get(),
@@ -63,11 +77,19 @@ class DashboardController extends Controller
             'draftCourses'      => $user->courses()->where('status', 'draft')->count(),
             'totalStudents'     => Enrollment::whereIn('course_id', $courseIds)->count(),
             'newStudentsThisWeek' => 0,
-            'avgRating'         => 4.8, // TODO sau khi có ratings
+            'avgRating'         => 0, // TODO sau khi có ratings
             'completionRate'    => 0,
-            'recentEnrollments' => Enrollment::with(['user', 'course'])
-                                    ->whereIn('course_id', $courseIds)
-                                    ->latest()->take(5)->get(),
+            'recentEnrollments' => Enrollment::with(['user', 'course.lessons'])
+            ->whereIn('course_id', $courseIds)
+            ->latest()->take(5)->get()
+            ->each(function ($enrollment) {
+                $total = $enrollment->course->lessons->count();
+                if ($total === 0) { $enrollment->progress_percent = 0; return; }
+                $completed = $enrollment->user->lessonProgress()
+                    ->whereIn('lesson_id', $enrollment->course->lessons->pluck('id'))
+                    ->where('completed', true)->count();
+                $enrollment->progress_percent = round($completed / $total * 100);
+            }),
         ];
     }
 

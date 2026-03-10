@@ -13,7 +13,7 @@
       <i class="bi bi-grid-1x2"></i> Dashboard
     </a>
     <a href="{{ route('instructor.courses.index') }}"
-       class="nav-item {{ request()->routeIs('instructor.courses.*') ? 'active' : '' }}">
+       class="nav-item {{ request()->routeIs('instructor.courses.index') ? 'active' : '' }}">
       <i class="bi bi-collection"></i> My Courses
     </a>
     <a href="{{ route('instructor.courses.create') }}"
@@ -26,15 +26,11 @@
     </a>
 
     <div class="nav-label mt-2">Tools</div>
-    <a href="{{ route('instructor.quizzes') }}"
-       class="nav-item {{ request()->routeIs('instructor.quizzes*') ? 'active' : '' }}">
-      <i class="bi bi-patch-question"></i> Quiz Builder
-    </a>
-    <a href="{{ route('instructor.analytics') }}"
+    <a href="#"
        class="nav-item {{ request()->routeIs('instructor.analytics') ? 'active' : '' }}">
       <i class="bi bi-bar-chart-line"></i> Analytics
     </a>
-    <a href="{{ route('instructor.profile') }}"
+    <a href="#"
        class="nav-item {{ request()->routeIs('instructor.profile') ? 'active' : '' }}">
       <i class="bi bi-person-circle"></i> Profile
     </a>

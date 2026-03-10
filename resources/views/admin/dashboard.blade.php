@@ -14,7 +14,7 @@
     <h2>Admin Dashboard 🛡️</h2>
     <p>System overview and management controls.</p>
   </div>
-  <div style="display:flex;gap:8px">
+  <div class="d-flex gap-2 mt-2 mt-md-0">
     <a href="#" class="btn-outline-edu" disabled style="opacity:.5;cursor:not-allowed">
       <i class="bi bi-download me-1"></i>Export
     </a>
@@ -26,7 +26,7 @@
 
 {{-- Stats --}}
 <div class="row g-3 mb-4">
-  <div class="col-md-3">
+  <div class="col-6 col-md-3">
     <div class="stat-card">
       <div class="icon-wrap bg-indigo-soft"><i class="bi bi-people text-indigo" style="font-size:20px"></i></div>
       <div class="stat-value">{{ number_format($totalUsers) }}</div>
@@ -34,7 +34,7 @@
       <div class="stat-change trend-up"><i class="bi bi-arrow-up-short"></i> +{{ $newUsersThisWeek }} this week</div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-6 col-md-3">
     <div class="stat-card">
       <div class="icon-wrap bg-cyan-soft"><i class="bi bi-collection text-cyan" style="font-size:20px"></i></div>
       <div class="stat-value">{{ $totalCourses }}</div>
@@ -42,7 +42,7 @@
       <div class="stat-change" style="color:var(--edu-amber)">{{ $pendingCourses }} pending approval</div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-6 col-md-3">
     <div class="stat-card">
       <div class="icon-wrap bg-green-soft"><i class="bi bi-journal-check text-green" style="font-size:20px"></i></div>
       <div class="stat-value">{{ number_format($totalEnrollments) }}</div>
@@ -50,7 +50,7 @@
       <div class="stat-change trend-up"><i class="bi bi-arrow-up-short"></i> +{{ $newEnrollmentsThisMonth }} this month</div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-6 col-md-3">
     <div class="stat-card">
       <div class="icon-wrap bg-amber-soft"><i class="bi bi-person-check text-amber" style="font-size:20px"></i></div>
       <div class="stat-value">{{ $totalInstructors }}</div>
@@ -60,10 +60,10 @@
   </div>
 </div>
 
-<div class="row g-3">
+<div class="row g-2 mb-4">
 
   {{-- User Management Table --}}
-  <div class="col-md-8">
+  <div class="col-12 col-md-8 col-sm-12">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="section-title mb-0">User Management</div>
       <a href="{{ route('admin.users.index') }}" style="font-size:13px;color:var(--edu-accent);text-decoration:none">
@@ -115,11 +115,17 @@
               </a>
               <form method="POST" action="{{ route('admin.users.toggle-ban', $user->id) }}" class="d-inline">
                 @csrf @method('PATCH')
-                <button type="submit"
-                  class="btn-sm py-1 px-2"
-                  style="border:1.5px solid var(--edu-red);border-radius:6px;background:transparent;color:var(--edu-red);cursor:pointer">
-                  <i class="bi bi-slash-circle"></i>
-                </button>
+                @if($user->is_active ?? true)
+                  <button type="submit" class="btn-sm py-1 px-2 btn-action-ban" style="font-size:13px"
+                    title="Ban user">
+                    <i class="bi bi-slash-circle"></i>
+                  </button>
+                @else
+                  <button type="submit" class="btn-sm py-1 px-2 btn-action-approve" style="font-size:13px"
+                    title="Unban user">
+                    <i class="bi bi-check-circle"></i>
+                  </button>
+                @endif
               </form>
             </td>
           </tr>
@@ -130,10 +136,10 @@
   </div>
 
   {{-- Pending Courses + Role Distribution --}}
-  <div class="col-md-4">
+  <div class="col-12 col-md-4 col-sm-12">
     <div class="section-title">Courses Pending Approval</div>
     <div class="card-box mb-3">
-      <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:12px;">
         @forelse($pendingCoursesList as $course)
         <div style="display:flex;align-items:center;justify-content:space-between;
                     {{ !$loop->last ? 'padding-bottom:12px;border-bottom:1px solid var(--edu-border)' : '' }}">
@@ -152,16 +158,14 @@
             </form>
             <form method="POST" action="{{ route('admin.courses.reject', $course->id) }}">
               @csrf @method('DELETE')
-              <button type="submit"
-                style="border:1.5px solid var(--edu-red);border-radius:6px;background:transparent;
-                       color:var(--edu-red);cursor:pointer;padding:4px 8px;font-size:11px">
+              <button type="submit" class="btn-action-reject py-1 px-2" style="font-size:11px">
                 <i class="bi bi-x"></i>
               </button>
             </form>
           </div>
         </div>
         @empty
-          <p style="color:var(--edu-muted);font-size:13px;text-align:center">Không có course nào cần duyệt</p>
+          <p style="color:var(--edu-muted);font-size:13px;text-align:center; width:100%; margin: 20px 0;">Không có course nào cần duyệt</p>
         @endforelse
       </div>
     </div>

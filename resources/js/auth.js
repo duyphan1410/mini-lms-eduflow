@@ -24,10 +24,10 @@ function checkStrength(val) {
 
   const levels = [
     { pct: '0%',    color: '',          text: '' },
-    { pct: '25%',   color: '#ef4444',   text: 'Yếu' },
-    { pct: '50%',   color: '#f59e0b',   text: 'Trung bình' },
-    { pct: '75%',   color: '#06b6d4',   text: 'Tốt' },
-    { pct: '100%',  color: '#10b981',   text: 'Mạnh 💪' },
+    { pct: '25%',   color: '#ef4444',   text: 'Weak' },       // Thay 'Yếu'
+    { pct: '50%',   color: '#f59e0b',   text: 'Average' },    // Thay 'Trung bình'
+    { pct: '75%',   color: '#06b6d4',   text: 'Good' },       // Thay 'Tốt'
+    { pct: '100%',  color: '#10b981',   text: 'Strong 💪' },  // Thay 'Mạnh'
   ];
 
   fill.style.width      = levels[score].pct;
@@ -37,3 +37,6 @@ function checkStrength(val) {
 
   console.log('[EduFlow Auth] Password strength score:', score, '/ 4');
 }
+
+window.checkStrength = checkStrength;
+window.togglePassword = togglePassword;

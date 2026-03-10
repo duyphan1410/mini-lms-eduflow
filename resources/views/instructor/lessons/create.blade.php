@@ -13,9 +13,12 @@
   </a>
 </div>
 
-<div class="card-box" style="max-width:620px">
-  <form method="POST" action="{{ route('instructor.courses.lessons.store', $course) }}">
-    @csrf
+<form method="POST" action="{{ route('instructor.courses.lessons.store', $course) }}">
+  @csrf
+
+  {{-- Lesson Info --}}
+  <div class="card-box mb-3">
+    <div class="section-title mb-3">Lesson Info</div>
 
     <div class="field-group">
       <label class="field-label">Lesson Title</label>
@@ -30,28 +33,63 @@
 
     <div class="field-group">
       <label class="field-label">Content</label>
-      <textarea name="content" rows="8"
-        class="field-input {{ $errors->has('content') ? 'is-invalid' : '' }}"
-        style="padding-left:14px;height:auto"
+      <textarea name="content" rows="6"
+        class="field-input" style="padding-left:14px;height:auto"
         placeholder="Nội dung bài học...">{{ old('content') }}</textarea>
-      @error('content') <div class="field-error">{{ $message }}</div> @enderror
     </div>
 
-    <div class="field-group">
-      <label class="field-label">Order <span style="color:var(--edu-muted);font-weight:400">(optional — tự động nếu để trống)</span></label>
+    <div class="field-group mb-0">
+      <label class="field-label">Order <span style="color:var(--edu-muted);font-weight:400">(tự động nếu để trống)</span></label>
       <div class="field-wrap">
         <i class="bi bi-sort-numeric-up field-icon"></i>
-        <input type="number" name="order" value="{{ old('order') }}"
-          class="field-input" min="0" placeholder="1">
+        <input type="number" name="order" value="{{ old('order') }}" class="field-input" min="0" placeholder="1">
       </div>
     </div>
+  </div>
 
-    <div class="d-flex gap-2 mt-3">
-      <button type="submit" class="btn-primary-edu">
-        <i class="bi bi-plus-lg"></i> Add Lesson
-      </button>
-      <a href="{{ route('instructor.courses.show', $course) }}" class="btn-outline-edu">Cancel</a>
+  {{-- Quiz Toggle --}}
+  <div class="card-box mb-3">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:600;font-size:14px">Add Quiz to this Lesson</div>
+        <div style="font-size:12px;color:var(--edu-muted)">Optional — can be added later</div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type="checkbox" id="quiz-toggle" onchange="toggleQuiz(this)"
+          style="width:18px;height:18px;accent-color:var(--edu-accent)"
+          {{ old('quiz_title') ? 'checked' : '' }}>
+        <span style="font-size:13px;font-weight:500">Enable Quiz</span>
+      </label>
     </div>
-  </form>
-</div>
+
+    <div id="quiz-section" style="display:{{ old('quiz_title') ? 'block' : 'none' }};margin-top:20px;border-top:1px solid var(--edu-border);padding-top:20px">
+      <div class="field-group">
+        <label class="field-label">Quiz Title</label>
+        <div class="field-wrap">
+          <i class="bi bi-patch-question field-icon"></i>
+          <input type="text" name="quiz_title" value="{{ old('quiz_title') }}"
+            class="field-input" placeholder="e.g. HTML Basics Quiz">
+        </div>
+      </div>
+
+      <div id="questions-container"></div>
+
+      <button type="button" class="btn-outline-edu" onclick="addQuestion()">
+        <i class="bi bi-plus-lg"></i> Add Question
+      </button>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn-primary-edu">
+      <i class="bi bi-plus-lg"></i> Add Lesson
+    </button>
+    <a href="{{ route('instructor.courses.show', $course) }}" class="btn-outline-edu">Cancel</a>
+  </div>
+</form>
+
+<script>
+    window.questionCount = 0; 
+</script>
+@vite(['resources/js/lesson-quiz.js'])
 @endsection

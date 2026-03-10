@@ -44,12 +44,12 @@
       @if($lastAttempt)
         <div class="alert alert-success">
           <i class="bi bi-trophy me-2"></i>
-          Điểm gần nhất: <strong>{{ $lastAttempt->score }}/{{ $quiz->questions->count() }}</strong>
+          Last score: <strong>{{ $lastAttempt->score }}/{{ $quiz->questions->count() }}</strong>
           ({{ round($lastAttempt->score / max($quiz->questions->count(), 1) * 100) }}%)
         </div>
       @endif
 
-      <form method="POST" action="{{ route('student.lessons.show', $lesson) }}">
+      <form method="POST" action="{{ route('student.lessons.quiz.submit', $lesson) }}">
         @csrf
         <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
 

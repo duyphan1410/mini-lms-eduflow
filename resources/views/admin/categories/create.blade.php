@@ -27,7 +27,7 @@
       </div>
       @error('name') <div class="field-error">{{ $message }}</div> @enderror
       <div style="font-size:11px;color:var(--edu-muted);margin-top:5px">
-        Slug sẽ tự động được tạo từ tên.
+        The Slug will be automatically generated from the name.
       </div>
     </div>
 

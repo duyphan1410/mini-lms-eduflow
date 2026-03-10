@@ -19,15 +19,18 @@
 {{-- Filter --}}
 <form method="GET" class="d-flex gap-2 mb-4">
   <input type="text" name="search" value="{{ request('search') }}"
-    class="field-input" style="max-width:260px;padding-left:14px"
+    class="field-input" style="max-width:260px;padding-left:14px;width:auto"
     placeholder="Search course title...">
-  <select name="status" class="field-input" style="max-width:160px;padding-left:14px">
+  <select name="status" class="field-input" style="max-width:160px;padding-left:14px;width:auto" onchange="this.form.submit()">
     <option value="">All status</option>
     <option value="draft"     {{ request('status') === 'draft'     ? 'selected' : '' }}>Draft</option>
+    <option value="pending"   {{ request('status') === 'pending'     ? 'selected' : '' }}>Pending</option>
     <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
   </select>
-  <button type="submit" class="btn-primary-edu">Filter</button>
-  <a href="{{ route('admin.courses.index') }}" class="btn-outline-edu">Reset</a>
+  <button type="submit" class="btn-primary-edu"><i class="bi bi-search"></i></button>
+  <a href="{{ route('admin.courses.index') }}" class="btn-outline-edu px-3">
+    <i class="bi bi-x-lg"></i>
+  </a>
 </form>
 
 <div class="data-table">
@@ -59,6 +62,8 @@
         <td>
           @if($course->status === 'published')
             <span class="badge-pill" style="background:rgba(16,185,129,.1);color:var(--edu-green)">Published</span>
+          @elseif($course->status === 'pending')
+            <span class="badge-pill" style="background:rgba(255,193,7,.1);color:#d97706">Pending</span>
           @else
             <span class="badge-pill" style="background:rgba(245,158,11,.1);color:var(--edu-amber)">Draft</span>
           @endif
@@ -68,20 +73,25 @@
             class="btn-outline-edu btn-sm py-1 px-2 me-1">
             <i class="bi bi-pencil"></i>
           </a>
-          @if($course->status === 'draft')
+          @if($course->status === 'pending')
           <form method="POST" action="{{ route('admin.courses.approve', $course) }}" class="d-inline">
             @csrf @method('PATCH')
-            <button type="submit" class="btn-primary-edu btn-sm py-1 px-2 me-1"
-              style="font-size:11px">
+            <button type="submit" class="btn-sm py-1 px-2 me-1 btn-action-approve">
               <i class="bi bi-check-lg"></i> Approve
+            </button>
+          </form>
+          <form method="POST" action="{{ route('admin.courses.reject', $course) }}" class="d-inline"
+            onsubmit="return confirm('Reject this course?')">
+            @csrf @method('DELETE')
+            <button type="submit" class="btn-sm py-1 px-2 me-1 btn-action-reject">
+              <i class="bi bi-x-lg"></i> Reject
             </button>
           </form>
           @endif
           <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="d-inline"
             onsubmit="return confirm('Delete this course?')">
             @csrf @method('DELETE')
-            <button type="submit" class="btn-sm py-1 px-2"
-              style="border:1.5px solid var(--edu-red);border-radius:6px;background:transparent;color:var(--edu-red);cursor:pointer">
+            <button type="submit" class="btn-sm py-1 px-2  btn-action-delete">
               <i class="bi bi-trash"></i>
             </button>
           </form>
@@ -97,4 +107,5 @@
 </div>
 
 <div class="mt-3">{{ $courses->links() }}</div>
+
 @endsection

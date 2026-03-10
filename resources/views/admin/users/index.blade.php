@@ -25,11 +25,11 @@
 @endif
 
 {{-- Filter / Search --}}
-<form method="GET" class="d-flex gap-2 mb-4">
+<form method="GET" class="d-flex flex-wrap gap-2 mb-4">
   <input type="text" name="search" value="{{ request('search') }}"
-    class="field-input" style="max-width:260px;padding-left:14px"
+    class="field-input" style="max-width:260px;padding-left:14px;width:auto"
     placeholder="Search name or email...">
-  <select name="role" class="field-input" style="max-width:160px;padding-left:14px" onchange="this.form.submit()">
+  <select name="role" class="field-input" style="max-width:160px;padding-left:14px;width:auto" onchange="this.form.submit()">
     <option value="">All roles</option>
     <option value="student"    {{ request('role') === 'student'    ? 'selected' : '' }}>Student</option>
     <option value="instructor" {{ request('role') === 'instructor' ? 'selected' : '' }}>Instructor</option>
@@ -42,77 +42,83 @@
     <i class="bi bi-x-lg"></i>
   </a>
 </form>
-
-<div class="data-table">
-  <table>
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Joined</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($users as $user)
-      <tr>
-        <td>
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="avatar-sm" style="background:linear-gradient(135deg,#6366f1,#06b6d4)">
-              {{ Str::upper(Str::substr($user->name, 0, 2)) }}
+<div class="table-responsive-wrapper">
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($users as $user)
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="avatar-sm" style="background:linear-gradient(135deg,#6366f1,#06b6d4)">
+                {{ Str::upper(Str::substr($user->name, 0, 2)) }}
+              </div>
+              <div>
+                <div style="font-weight:600;font-size:13px">{{ $user->name }}</div>
+                <div style="font-size:11px;color:var(--edu-muted)">{{ $user->email }}</div>
+              </div>
             </div>
-            <div>
-              <div style="font-weight:600;font-size:13px">{{ $user->name }}</div>
-              <div style="font-size:11px;color:var(--edu-muted)">{{ $user->email }}</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <span class="badge-pill badge-{{ $user->role }}">{{ ucfirst($user->role) }}</span>
-        </td>
-        <td>
-          @if($user->is_active ?? true)
-            <span class="badge-pill" style="background:rgba(16,185,129,.1);color:var(--edu-green)">Active</span>
-          @else
-            <span class="badge-pill" style="background:rgba(239,68,68,.1);color:var(--edu-red)">Banned</span>
-          @endif
-        </td>
-        <td style="color:var(--edu-muted);font-size:12px">{{ $user->created_at->format('d M Y') }}</td>
-        <td>
-          <a href="{{ route('admin.users.edit', $user) }}" class="btn-outline-edu btn-sm py-1 px-2 me-1">
-            <i class="bi bi-pencil"></i>
-          </a>
-          @if($user->id !== auth()->id())
-          <form method="POST" action="{{ route('admin.users.toggle-ban', $user) }}" class="d-inline">
-            @csrf @method('PATCH')
-            <button type="submit" class="btn-sm py-1 px-2"
-              style="border:1.5px solid var(--edu-amber);border-radius:6px;background:transparent;color:var(--edu-amber);cursor:pointer"
-              title="{{ ($user->is_active ?? true) ? 'Ban' : 'Unban' }}">
-              <i class="bi bi-slash-circle"></i>
-            </button>
-          </form>
-          <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="d-inline"
-            onsubmit="return confirm('Delete this user?')">
-            @csrf @method('DELETE')
-            <button type="submit" class="btn-sm py-1 px-2"
-              style="border:1.5px solid var(--edu-red);border-radius:6px;background:transparent;color:var(--edu-red);cursor:pointer">
-              <i class="bi bi-trash"></i>
-            </button>
-          </form>
-          @endif
-        </td>
-      </tr>
-      @empty
-      <tr>
-        <td colspan="5" style="text-align:center;color:var(--edu-muted);padding:32px">
-          No users found.
-        </td>
-      </tr>
-      @endforelse
-    </tbody>
-  </table>
-</div>
+          </td>
+          <td>
+            <span class="badge-pill badge-{{ $user->role }}">{{ ucfirst($user->role) }}</span>
+          </td>
+          <td>
+            @if($user->is_active ?? true)
+              <span class="badge-pill" style="background:rgba(16,185,129,.1);color:var(--edu-green)">Active</span>
+            @else
+              <span class="badge-pill" style="background:rgba(239,68,68,.1);color:var(--edu-red)">Banned</span>
+            @endif
+          </td>
+          <td style="color:var(--edu-muted);font-size:12px">{{ $user->created_at->format('d M Y') }}</td>
+          <td>
+            <a href="{{ route('admin.users.edit', $user) }}" class="btn-outline-edu btn-sm py-1 px-2">
+              <i class="bi bi-pencil"></i>
+            </a>
+            @if($user->id !== auth()->id())
+            <form method="POST" action="{{ route('admin.users.toggle-ban', $user) }}" class="d-inline">
+              @csrf @method('PATCH')
+              @if($user->is_active ?? true)
+                <button type="submit" class="btn-sm py-1 px-2 btn-action-ban" style="font-size:13px"
+                  title="Ban user">
+                  <i class="bi bi-slash-circle"></i>
+                </button>
+              @else
+                <button type="submit" class="btn-sm py-1 px-2 btn-action-approve" style="font-size:13px"
+                  title="Unban user">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+              @endif
+            </form>
+            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="d-inline"
+              onsubmit="return confirm('Delete this user?')">
+              @csrf @method('DELETE')
+              <button type="submit" class="btn-sm py-1 px-2 btn-action-delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            </form>
+            @endif
+          </td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="5" style="text-align:center;color:var(--edu-muted);padding:32px">
+            No users found.
+          </td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+  </div>
 
 <div class="mt-3">{{ $users->links() }}</div>
 @endsection

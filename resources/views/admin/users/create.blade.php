@@ -13,7 +13,7 @@
   </a>
 </div>
 
-<div class="card-box" style="max-width:560px">
+<div class="card-box card-box-form" style="max-width:560px">
   <form method="POST" action="{{ route('admin.users.store') }}">
     @csrf
 

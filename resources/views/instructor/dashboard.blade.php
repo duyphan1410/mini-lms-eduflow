@@ -11,7 +11,7 @@
 {{-- Topbar --}}
 <div class="topbar">
   <div class="page-header mb-0">
-    <h2>Instructor Dashboard 👨‍🏫</h2>
+    <h2>Instructor Dashboard </h2>
     <p>Manage your courses and track student performance.</p>
   </div>
   <a href="{{ route('instructor.courses.create') }}" class="btn-primary-edu">

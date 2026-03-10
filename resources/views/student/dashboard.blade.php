@@ -11,10 +11,18 @@
 {{-- Topbar --}}
 <div class="topbar">
   <div class="page-header mb-0">
-    <h2>Good morning, {{ auth()->user()->name }} 👋</h2>
+    <h2>Good morning, {{ Str::ascii(auth()->user()->name) }} 👋</h2>
     <p>You have {{ $pendingLessons }} lessons to continue today.</p>
   </div>
-  <div class="search-box"><i class="bi bi-search"></i> Search courses...</div>
+  
+  <form method="GET" action="{{ route('student.courses.index') }}" class="d-flex">
+  <div class="search-box" style="cursor:text;padding:0">
+    <i class="bi bi-search" style="padding-left:14px;color:var(--edu-muted)"></i>
+    <input type="text" name="search" 
+      placeholder="Search courses..."
+      style="border:none;outline:none;background:transparent;font-size:13px;padding:8px 14px;width:200px;color:var(--edu-navy)">
+  </div>
+</form>
 </div>
 
 {{-- Continue Learning Banner --}}
@@ -102,7 +110,7 @@
   <div class="col-12">
     <div class="card-box text-center" style="color:var(--edu-muted)">
       <i class="bi bi-collection-play" style="font-size:32px;display:block;margin-bottom:8px"></i>
-      Bạn chưa đăng ký khóa học nào. <a href="{{ route('student.courses.index') }}">Khám phá ngay!</a>
+      There are no courses available yet. <a href="{{ route('student.courses.index') }}">Discover now!</a>
     </div>
   </div>
   @endforelse

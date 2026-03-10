@@ -6,7 +6,7 @@
 <div class="topbar">
   <div class="page-header mb-0">
     <h2>My Students</h2>
-    <p>Tất cả học viên đang học các khóa của bạn.</p>
+    <p>All students currently enrolled in your courses.</p>
   </div>
 </div>
 

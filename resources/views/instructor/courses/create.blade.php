@@ -33,7 +33,7 @@
       <textarea name="description" rows="4"
         class="field-input {{ $errors->has('description') ? 'is-invalid' : '' }}"
         style="padding-left:14px;height:auto"
-        placeholder="Mô tả ngắn về khóa học...">{{ old('description') }}</textarea>
+        placeholder="Course Description...">{{ old('description') }}</textarea>
       @error('description') <div class="field-error">{{ $message }}</div> @enderror
     </div>
 

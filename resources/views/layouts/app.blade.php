@@ -12,14 +12,19 @@
     @yield('styles')
 </head>
 <body>
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    {{-- Overlay --}}
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="app-wrap">
+        @yield('sidebar')
 
-    {{-- Sidebar được include theo role --}}
-    @yield('sidebar')
-
-    <main class="main-content">
-        @yield('content')
-    </main>
+        <main class="main-content">
+            @yield('content')
+        </main>
 
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>

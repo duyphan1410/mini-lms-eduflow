@@ -26,7 +26,7 @@
     </a>
 
     <div class="nav-label mt-2">Account</div>
-    <a href="{{ route('student.profile') }}"
+    <a href="#"
        class="nav-item {{ request()->routeIs('student.profile') ? 'active' : '' }}">
       <i class="bi bi-person-circle"></i> Profile
     </a>

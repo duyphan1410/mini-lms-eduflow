@@ -6,7 +6,7 @@
 <div class="topbar">
   <div class="page-header mb-0">
     <h2>My Courses</h2>
-    <p>Các khóa học bạn đã đăng ký.</p>
+    <p>The courses you have registered for.</p>
   </div>
   <a href="{{ route('student.courses.index') }}" class="btn-primary-edu">
     <i class="bi bi-search me-1"></i> Browse More
@@ -22,9 +22,9 @@
 @if($enrollments->isEmpty())
   <div class="card-box text-center" style="color:var(--edu-muted);padding:48px">
     <i class="bi bi-journal-bookmark" style="font-size:40px;display:block;margin-bottom:12px"></i>
-    <div style="font-weight:600;margin-bottom:6px">Chưa có khóa học nào</div>
+    <div style="font-weight:600;margin-bottom:6px">There are no courses available yet.</div>
     <a href="{{ route('student.courses.index') }}" class="btn-primary-edu mt-2">
-      Khám phá ngay
+      Discover now
     </a>
   </div>
 @else

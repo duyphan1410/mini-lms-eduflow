@@ -6,7 +6,7 @@
 <div class="topbar">
   <div class="page-header mb-0">
     <h2>My Progress</h2>
-    <p>Theo dõi tiến độ học tập của bạn.</p>
+    <p>Track your learning progress.</p>
   </div>
 </div>
 
@@ -55,7 +55,7 @@
 @if($enrollments->isEmpty())
   <div class="card-box text-center" style="color:var(--edu-muted);padding:48px">
     <i class="bi bi-bar-chart" style="font-size:40px;display:block;margin-bottom:12px"></i>
-    Chưa có tiến độ nào. <a href="{{ route('student.courses.index') }}">Đăng ký khóa học ngay!</a>
+    No progress has been made yet. <a href="{{ route('student.courses.index') }}">Register for the course now!</a>
   </div>
 @else
   <div class="section-title">Course Progress</div>

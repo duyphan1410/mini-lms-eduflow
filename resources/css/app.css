@@ -196,6 +196,7 @@ h5,
     flex: 1;
     padding: 28px 32px;
     min-height: 100vh;
+    width: 100%;
 }
 
 /* ── Page header ── */
@@ -363,7 +364,10 @@ h5,
     background: #fff;
     border-radius: var(--radius);
     border: 1px solid var(--edu-border);
-    overflow: hidden;
+    overflow: hidden;       
+    overflow-x: clip;        /* clip thay vì hidden để không block scroll con */
+    overflow-y: visible;
+    white-space: nowrap;
 }
 
 .data-table table {
@@ -616,3 +620,197 @@ h5,
 .field-input:focus { border-color: var(--edu-accent); box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
 .field-input.is-invalid { border-color: #ef4444; }
 .field-error { font-size: 12px; color: #ef4444; margin-top: 5px; }
+
+.btn-action-approve {
+  border: 1.5px solid var(--edu-green);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--edu-green);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all .15s;
+}
+.btn-action-approve:hover {
+  background: var(--edu-green);
+  color: #fff;
+}
+
+.btn-action-reject {
+  border: 1.5px solid var(--edu-amber);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--edu-amber);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all .15s;
+}
+.btn-action-reject:hover {
+  background: var(--edu-amber);
+  color: #fff;
+}
+.btn-action-delete {
+  border: 1.5px solid var(--edu-red);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--edu-red);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all .15s;
+}
+.btn-action-delete:hover {
+  background: var(--edu-red);
+  color: #fff;
+}
+
+.btn-action-ban {
+  border: 1.5px solid var(--edu-amber);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--edu-amber);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all .15s;
+}
+.btn-action-ban:hover {
+  background: var(--edu-amber);
+  color: #fff;
+}
+
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1100;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--edu-navy);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  transition: left .25s ease;
+}
+
+/* Overlay khi sidebar mở trên mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 999;
+}
+.sidebar-overlay.active { display: block; }
+
+
+@media (max-width: 768px) {
+
+  /* ── Sidebar ── */
+  .sidebar-toggle { display: flex; }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar.open { transform: translateX(0); }
+
+  /* ── Main content full width ── */
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 60px 12px 24px; /* top padding cho toggle button */
+  }
+
+  /* ── Topbar stack ── */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .topbar .d-flex { flex-wrap: wrap; }
+
+  /* ── Stats grid 2 cột ── */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── Tables scroll ngang ── */
+  .data-table { overflow-x: auto; }
+  .data-table table { min-width: 560px; }
+  .table-responsive-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* ── Card box full width ── */
+  .card-box[style*="max-width"] { max-width: 100% !important; }
+  .card-box-form { max-width: 100% !important; }
+
+  /* ── Continue banner stack ── */
+  .continue-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  /* ── Page header ── */
+  .page-header h2 { font-size: 18px; }
+
+  /* ── Form fields full width ── */
+  .d-flex.gap-2 { flex-wrap: wrap; }
+  .field-input[style*="max-width"] { max-width: 100% !important; }
+}
+
+@media (max-width: 576px) {
+    /* Ép row chia 2 cột đều nhau */
+    .row.g-3 .col-6 {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+
+    /* Thu nhỏ Card để không bị vỡ layout */
+    .stat-card {
+        padding: 10px !important;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Thu nhỏ Icon */
+    .stat-card .icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Thu nhỏ các dòng chữ số liệu */
+    .stat-card .stat-value {
+        font-size: 18px !important;
+    }
+
+    .stat-card .stat-label {
+        font-size: 11px !important;
+        white-space: nowrap; /* Ép không xuống dòng để tránh đẩy chiều cao */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Quan trọng: Thu nhỏ dòng chữ "pending approval" đang gây lỗi */
+    .stat-card .stat-change {
+        font-size: 10px !important;
+        line-height: 1.2;
+        margin-top: 4px !important;
+    }
+}

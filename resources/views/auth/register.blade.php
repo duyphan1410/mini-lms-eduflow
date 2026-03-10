@@ -7,7 +7,7 @@
   <div class="left-tagline">
     Start your<br><span>journey.</span>
   </div>
-  <p class="left-sub">Tạo tài khoản miễn phí và bắt đầu học ngay hôm nay.</p>
+  <p class="left-sub">Create your free account and start learning today.</p>
 
   <div class="feature-list">
     <div class="feature-item">
@@ -15,8 +15,8 @@
         <i class="bi bi-collection-play" style="color:#a5b4fc"></i>
       </div>
       <div class="feature-text">
-        <strong>86+ Khóa học</strong>
-        Đa dạng từ Web Dev đến Data Science
+        <strong>86+ Courses</strong>
+        Diverse topics from Web Dev to Data Science.
       </div>
     </div>
     <div class="feature-item">
@@ -24,8 +24,8 @@
         <i class="bi bi-graph-up-arrow" style="color:#67e8f9"></i>
       </div>
       <div class="feature-text">
-        <strong>Theo dõi tiến độ</strong>
-        Dashboard cá nhân hiển thị % hoàn thành
+        <strong>Progress Tracking</strong>
+        Personal dashboard showing completion percentage.
       </div>
     </div>
     <div class="feature-item">
@@ -33,8 +33,8 @@
         <i class="bi bi-patch-question" style="color:#6ee7b7"></i>
       </div>
       <div class="feature-text">
-        <strong>Quiz tương tác</strong>
-        Kiểm tra kiến thức sau mỗi bài học
+        <strong>Interactive Quizzes</strong>
+        Test your knowledge after every lesson.
       </div>
     </div>
     <div class="feature-item">
@@ -42,8 +42,8 @@
         <i class="bi bi-trophy" style="color:#fcd34d"></i>
       </div>
       <div class="feature-text">
-        <strong>Chứng chỉ hoàn thành</strong>
-        Nhận certificate khi hoàn thành khóa học
+        <strong>Certificates of Completion</strong>
+        Earn a certificate upon course completion.
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
 @section('content')
 
 <div class="auth-title">Create account ✨</div>
-<p class="auth-sub">Đăng ký miễn phí — không cần thẻ tín dụng.</p>
+<p class="auth-sub">Sign up for free — no credit card required.</p>
 
 @if($errors->any())
   <div class="alert-edu">
@@ -67,14 +67,14 @@
 
   {{-- Name --}}
   <div class="field-group">
-    <label class="field-label" for="name">Họ và tên</label>
+    <label class="field-label" for="name">Full Name</label>
     <div class="field-wrap">
       <i class="bi bi-person field-icon"></i>
       <input
         type="text" id="name" name="name"
         class="field-input {{ $errors->has('name') ? 'is-invalid' : '' }}"
         value="{{ old('name') }}"
-        placeholder="Nguyễn Văn A"
+        placeholder="Jonh Doe"
         required autofocus
       >
     </div>
@@ -109,7 +109,7 @@
       <input
         type="password" id="password" name="password"
         class="field-input {{ $errors->has('password') ? 'is-invalid' : '' }}"
-        placeholder="Tối thiểu 8 ký tự"
+        placeholder="Min. 8 characters"
         required
         oninput="checkStrength(this.value)"
       >
@@ -130,13 +130,13 @@
 
   {{-- Confirm Password --}}
   <div class="field-group">
-    <label class="field-label" for="password_confirmation">Xác nhận Password</label>
+    <label class="field-label" for="password_confirmation">Confirm Password</label>
     <div class="field-wrap">
       <i class="bi bi-lock-fill field-icon"></i>
       <input
         type="password" id="password_confirmation" name="password_confirmation"
         class="field-input"
-        placeholder="Nhập lại password"
+        placeholder="Confirm your password"
         required
       >
       <button type="button" class="toggle-pw" onclick="togglePassword('password_confirmation', 'pw2-icon')">
@@ -149,20 +149,20 @@
   <div class="role-note">
     <i class="bi bi-info-circle-fill"></i>
     <span>
-      Tài khoản đăng ký mặc định là <strong>Student</strong>.
-      Liên hệ admin nếu muốn trở thành Instructor.
+      Registered accounts are <strong>Student</strong> by default.
+      Contact admin to become an Instructor.
     </span>
   </div>
 
   <button type="submit" class="btn-submit">
-    <i class="bi bi-person-plus"></i> Tạo tài khoản
+    <i class="bi bi-person-plus"></i> Create Account
   </button>
 </form>
 
 <div class="divider">or</div>
 
 <div class="bottom-link">
-  Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>
+  Already have an account? <a href="{{ route('login') }}">Sign In</a>
 </div>
 
 @endsection

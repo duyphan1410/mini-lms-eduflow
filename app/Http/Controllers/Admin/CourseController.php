@@ -46,7 +46,7 @@ class CourseController extends Controller
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'status'      => 'required|in:draft,published',
+            'status'      => 'required|in:draft,pending,published',
         ]);
 
         $course->update($validated);
@@ -72,8 +72,8 @@ class CourseController extends Controller
 
     public function reject(Course $course)
     {
-        $course->delete();
-
+        $course->update(['status' => 'draft']);
+        
         return redirect()->route('admin.courses.index')
             ->with('success', "Course '{$course->title}' rejected and removed.");
     }

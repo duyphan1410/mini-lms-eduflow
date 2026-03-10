@@ -39,7 +39,7 @@
       <label class="field-label">Category</label>
       <div class="field-wrap">
         <i class="bi bi-tags field-icon"></i>
-        <select name="category_id" class="field-input" style="padding-left:40px">
+        <select name="category_id" class="field-input" style="padding-left:40px;width:100%">
           @foreach($categories as $category)
             <option value="{{ $category->id }}"
               {{ old('category_id', $course->category_id) == $category->id ? 'selected' : '' }}>
@@ -55,8 +55,9 @@
       <label class="field-label">Status</label>
       <div class="field-wrap">
         <i class="bi bi-toggle-on field-icon"></i>
-        <select name="status" class="field-input" style="padding-left:40px">
+        <select name="status" class="field-input" style="padding-left:40px;width:100%">
           <option value="draft"     {{ old('status', $course->status) === 'draft'     ? 'selected' : '' }}>Draft</option>
+          <option value="pending"   {{ old('status', $course->status) === 'pending'      ? 'selected' : '' }}>Pending</option>
           <option value="published" {{ old('status', $course->status) === 'published' ? 'selected' : '' }}>Published</option>
         </select>
       </div>

@@ -8,7 +8,7 @@
     Learn without<br><span>limits.</span>
   </div>
   <p class="left-sub">
-    Nền tảng học tập hiện đại — khóa học chất lượng, theo dõi tiến độ thực tế, quiz tương tác.
+    Modern learning platform — quality courses, real-time progress tracking, and interactive quizzes.
   </p>
   <div class="stats-row">
     <div class="stat-chip">
@@ -30,7 +30,7 @@
 @section('content')
 
     <div class="auth-title">Welcome back 👋</div>
-    <p class="auth-sub">Đăng nhập để tiếp tục học tập của bạn.</p>
+    <p class="auth-sub">Log in to continue your learning journey.</p>
 
     {{-- Error / Status --}}
     @if($errors->any())
@@ -101,7 +101,7 @@
     <div class="divider">or</div>
 
     <div class="bottom-link">
-        Chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký ngay</a>
+        Don't have an account? <a href="{{ route('register') }}">Sign Up Now</a>
     </div>
 
 @endsection
