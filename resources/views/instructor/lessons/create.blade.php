@@ -68,7 +68,7 @@
         <div class="field-wrap">
           <i class="bi bi-patch-question field-icon"></i>
           <input type="text" name="quiz_title" value="{{ old('quiz_title') }}"
-            class="field-input" placeholder="e.g. HTML Basics Quiz">
+            class="field-input" placeholder="e.g. HTML Basics Quiz" required>
         </div>
       </div>
 
@@ -90,6 +90,17 @@
 
 <script>
     window.questionCount = 0; 
+    document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('form')?.addEventListener('submit', (e) => {
+    const data = new FormData(e.target);
+    console.log('=== FORM SUBMIT ===');
+    for (let [k, v] of data.entries()) console.log(k, v);
+    
+    // Check questions
+    const questions = document.querySelectorAll('[name^="questions"]');
+    console.log('Questions fields found:', questions.length);
+  });
+});
 </script>
 @vite(['resources/js/lesson-quiz.js'])
 @endsection

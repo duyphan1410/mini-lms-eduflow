@@ -1,5 +1,3 @@
-// resources/js/lesson-quiz.js
-
 window.toggleQuiz = function(checkbox) {
   const quizSection = document.getElementById('quiz-section');
   if (quizSection) {
