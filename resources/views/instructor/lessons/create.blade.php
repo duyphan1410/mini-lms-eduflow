@@ -35,11 +35,11 @@
       <label class="field-label">Content</label>
       <textarea name="content" rows="6"
         class="field-input" style="padding-left:14px;height:auto"
-        placeholder="Nội dung bài học...">{{ old('content') }}</textarea>
+        placeholder="Lesson content...">{{ old('content') }}</textarea>
     </div>
 
     <div class="field-group mb-0">
-      <label class="field-label">Order <span style="color:var(--edu-muted);font-weight:400">(tự động nếu để trống)</span></label>
+      <label class="field-label">Order <span style="color:var(--edu-muted);font-weight:400">(automatic if left blank)</span></label>
       <div class="field-wrap">
         <i class="bi bi-sort-numeric-up field-icon"></i>
         <input type="number" name="order" value="{{ old('order') }}" class="field-input" min="0" placeholder="1">

@@ -12,6 +12,15 @@
     <a href="{{ route('instructor.courses.edit', $course) }}" class="btn-outline-edu">
       <i class="bi bi-pencil"></i> Edit
     </a>
+    <form method="POST"
+      action="{{ route('instructor.courses.destroy', [$course]) }}"
+      class="d-inline" onsubmit="return confirm('Delete this course?')">
+      @csrf @method('DELETE')
+      <button type="submit" class="btn-action-delete py-1 px-2"
+        style="height:100%">
+        <i class="bi bi-trash"></i> Delete
+      </button>
+    </form>
     @if($course->status === 'draft')
       <form method="POST" action="{{ route('instructor.courses.submit', $course) }}">
         @csrf @method('PATCH')
@@ -55,8 +64,8 @@
     @if($course->lessons->isEmpty())
     <div class="card-box text-center" style="color:var(--edu-muted)">
       <i class="bi bi-journal-x" style="font-size:32px;display:block;margin-bottom:8px"></i>
-      Chưa có lesson nào.
-      <a href="{{ route('instructor.courses.lessons.create', $course) }}">Thêm ngay!</a>
+      No lessons have been taught yet.
+      <a href="{{ route('instructor.courses.lessons.create', $course) }}">Add now!</a>
     </div>
     @else
     <div class="data-table">
